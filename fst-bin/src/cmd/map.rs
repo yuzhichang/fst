@@ -61,10 +61,14 @@ impl Args {
             delimiter: m
                 .value_of_lossy("delimiter")
                 .map(|x| {
-                    x.as_bytes()
-                        .get(0)
-                        .map(|y| *y)
-                        .ok_or(DelimiterInvalidError)
+                    if x == "\\t" {
+                        Ok('\t' as u8)
+                    } else {
+                        x.as_bytes()
+                            .get(0)
+                            .map(|y| *y)
+                            .ok_or(DelimiterInvalidError)
+                    }
                 })
                 .transpose()?,
         })
