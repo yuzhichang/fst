@@ -135,6 +135,10 @@ checksum, such as all FSTs generated prior to 'fst 0.4'. All FSTs generated
 at or after 'fst 0.4' have checksums.
 ";
 
+const ABOUT_BENCHMARK: &str = "\
+Query benchmark with given keys against the given transducer.
+";
+
 pub fn app() -> clap::App<'static, 'static> {
     let cmd = |name, about| {
         clap::SubCommand::with_name(name)
@@ -399,6 +403,22 @@ pub fn app() -> clap::App<'static, 'static> {
         pos("input").required(true).multiple(true).help("The FST to verify."),
     );
 
+
+    let benchmark = cmd("benchmark", ABOUT_BENCHMARK)
+        .arg(
+            pos("keys")
+                .required(true)
+                .help("A file containing a key per line."),
+        )
+        .arg(
+            pos("fst")
+                .required(true)
+                .help("The FST to run query benchmark against."),
+        )
+        .arg(flag("delimiter").takes_value(true).help(
+            "The delimiter used in the CSV file to separate key and value in each line. \
+             This defaults to ','.",));
+
     clap::App::new("fst")
         .author(clap::crate_authors!())
         .version(clap::crate_version!())
@@ -417,4 +437,5 @@ pub fn app() -> clap::App<'static, 'static> {
         .subcommand(set)
         .subcommand(union)
         .subcommand(verify)
+        .subcommand(benchmark)
 }

@@ -19,6 +19,7 @@ fn main() -> Result<(), Error> {
         ("set", Some(m)) => cmd::set::run(m),
         ("union", Some(m)) => cmd::union::run(m),
         ("verify", Some(m)) => cmd::verify::run(m),
+        ("benchmark", Some(m)) => cmd::benchmark::run(m),
         ("", _) => {
             app::app().print_help()?;
             println!("");
